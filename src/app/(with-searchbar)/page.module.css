@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  gap: 50px;
+  flex-direction: column;
+}
+
+.reco_container {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.all_container {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(5, 1fr);
+}
