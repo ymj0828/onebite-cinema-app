@@ -1,5 +1,12 @@
 .container {
   display: flex;
+  gap: 50px;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.container > section {
+  display: flex;
   gap: 10px;
   flex-direction: column;
 }
