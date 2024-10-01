@@ -1,8 +1,11 @@
-import { MovieData } from '@/types';
+import { MovieData, ReviewData } from '@/types';
 
 import style from './page.module.css';
 import classNames from 'classnames/bind';
 import { notFound } from 'next/navigation';
+
+import ReviewEditor from '@/components/review-editor';
+import ReviewItem from '@/components/review-item';
 
 const cx = classNames.bind(style);
 
@@ -16,8 +19,8 @@ export async function generateStaticParams() {
   return movies.map(({ id }) => ({ id: id.toString() }));
 }
 
-export default async function Page({ params }: { params: { id: string | string[] } }) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${params.id}`, {
+async function MovieDetail({ movieId }: { movieId: string }) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${movieId}`, {
     cache: 'force-cache',
   });
 
@@ -35,7 +38,7 @@ export default async function Page({ params }: { params: { id: string | string[]
     movie;
 
   return (
-    <div className={cx('container')}>
+    <section className={cx('container')}>
       <div
         className={cx('cover_img_container')}
         style={{ backgroundImage: `url('${posterImgUrl}')` }}
@@ -55,6 +58,34 @@ export default async function Page({ params }: { params: { id: string | string[]
           <div className={cx('description')}>{description}</div>
         </div>
       </div>
+    </section>
+  );
+}
+
+async function ReviewList({ movieId }: { movieId: string }) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/movie/${movieId}`);
+
+  if (!response.ok) {
+    throw new Error(`Review fetch failed : ${response.statusText}`);
+  }
+
+  const reviews: ReviewData[] = await response.json();
+
+  return (
+    <section>
+      {reviews.map((review) => (
+        <ReviewItem key={`review-item-${review.id}`} {...review} />
+      ))}
+    </section>
+  );
+}
+
+export default async function Page({ params }: { params: { id: string } }) {
+  return (
+    <div className={cx('container')}>
+      <MovieDetail movieId={params.id} />
+      <ReviewEditor movieId={params.id} />
+      <ReviewList movieId={params.id} />
     </div>
   );
 }
