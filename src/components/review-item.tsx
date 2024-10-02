@@ -1,5 +1,6 @@
 import { ReviewData } from '@/types';
 
+import ReviewItemDeleteButton from './review-item-delete-button';
 import style from './review-item.module.css';
 import classNames from 'classnames/bind';
 
@@ -12,7 +13,7 @@ export default function ReviewItem({ id, content, author, createdAt, movieId }: 
       <div className={cx('content')}>{content}</div>
       <div className={cx('bottom_container')}>
         <div className={cx('date')}>{new Date(createdAt).toLocaleString()}</div>
-        <div className={cx('delete_btn')}>삭제하기</div>
+        <ReviewItemDeleteButton reviewId={id} movieId={movieId} />
       </div>
     </div>
   );
