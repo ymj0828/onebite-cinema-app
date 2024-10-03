@@ -38,7 +38,7 @@ async function MovieDetail({ movieId }: { movieId: string }) {
     movie;
 
   return (
-    <section className={cx('container')}>
+    <section>
       <div
         className={cx('cover_img_container')}
         style={{ backgroundImage: `url('${posterImgUrl}')` }}
