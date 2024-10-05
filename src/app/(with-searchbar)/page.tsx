@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 
 import style from './page.module.css';
 import classNames from 'classnames/bind';
+import { Metadata } from 'next';
 
 import MovieItem from '@/components/movie-item';
 
@@ -24,7 +25,7 @@ async function AllMovies() {
   return (
     <div className={cx('all_container')}>
       {allMovies.map((movie) => (
-        <MovieItem key={`all-${movie.id}`} {...movie} />
+        <MovieItem key={`all-${movie.id}`} imgSize="sm" {...movie} />
       ))}
     </div>
   );
@@ -44,13 +45,23 @@ async function RecoMovies() {
   return (
     <div className={cx('reco_container')}>
       {recoMovies.map((movie) => (
-        <MovieItem key={`reco-${movie.id}`} {...movie} />
+        <MovieItem key={`reco-${movie.id}`} imgSize="md" {...movie} />
       ))}
     </div>
   );
 }
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: '한입 씨네마',
+  description: '한입 씨네마에 등록된 영화들을 만나보세요',
+  openGraph: {
+    title: '한입 씨네마',
+    description: '한입 씨네마에 등록된 영화들을 만나보세요',
+    images: ['/thumbnail.png'],
+  },
+};
 
 export default function Home() {
   return (
