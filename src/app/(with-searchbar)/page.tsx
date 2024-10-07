@@ -1,7 +1,4 @@
 import { MovieData } from '@/types';
-import { delay } from '@/utils/delay';
-
-import { Suspense } from 'react';
 
 import style from './page.module.css';
 import classNames from 'classnames/bind';
@@ -12,8 +9,6 @@ import MovieItem from '@/components/movie-item';
 const cx = classNames.bind(style);
 
 async function AllMovies() {
-  await delay(1500);
-
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`, {
     cache: 'force-cache',
   });
@@ -32,8 +27,6 @@ async function AllMovies() {
 }
 
 async function RecoMovies() {
-  await delay(3000);
-
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/random`, {
     next: { revalidate: 60 },
   });
@@ -51,8 +44,6 @@ async function RecoMovies() {
   );
 }
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: '한입 씨네마',
   description: '한입 씨네마에 등록된 영화들을 만나보세요',
@@ -68,15 +59,11 @@ export default function Home() {
     <div className={cx('container')}>
       <section>
         <h3>지금 가장 추천하는 영화</h3>
-        <Suspense fallback={<div>영화를 불러오는 중입니다...</div>}>
-          <RecoMovies />
-        </Suspense>
+        <RecoMovies />
       </section>
       <section>
         <h3>등록된 모든 영화</h3>
-        <Suspense fallback={<div>영화를 불러오는 중입니다...</div>}>
-          <AllMovies />
-        </Suspense>
+        <AllMovies />
       </section>
     </div>
   );
