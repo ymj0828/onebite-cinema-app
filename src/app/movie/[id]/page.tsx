@@ -16,6 +16,10 @@ export const dynamicParams = false;
 export async function generateStaticParams() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`);
 
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
   const movies: MovieData[] = await response.json();
 
   return movies.map(({ id }) => ({ id: id.toString() }));
